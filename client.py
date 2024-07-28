@@ -3,8 +3,8 @@ import threading
 import time
 
 HEADER = 4096
-HOST = socket.gethostbyname('deniz-K56CM')
-PORT = 5050
+HOST = '6.tcp.eu.ngrok.io'
+PORT = 17897
 ADDR = (HOST, PORT)
 DISCONNECT_MESSAGE = '!DISCONNECT'
 FORMAT = 'utf-8'
@@ -24,6 +24,16 @@ def receive():
             client.close()
             client.send(DISCONNECT_MESSAGE.encode(FORMAT))
             break
+
+def send():
+    while True:
+        message = input()
+        client.send(message.encode(FORMAT))
+
+
+send_thread = threading.Thread(target=send)
+
+send_thread.start()
 
 
 receive_thread = threading.Thread(target=receive)
